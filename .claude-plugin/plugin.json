@@ -1,0 +1,13 @@
+{
+  "name": "dokploy-deploy",
+  "version": "0.1.0",
+  "description": "Deploy, release and troubleshoot multi-service apps on a self-hosted Dokploy (Docker Swarm) server through the Dokploy MCP.",
+  "author": {
+    "name": "Kien Hoang Trung",
+    "url": "https://github.com/kreddevils18"
+  },
+  "homepage": "https://github.com/kreddevils18/claude-dokploy-deploy",
+  "repository": "https://github.com/kreddevils18/claude-dokploy-deploy",
+  "license": "MIT",
+  "keywords": ["dokploy", "deploy", "docker-swarm", "self-hosted", "tailscale", "cloudflare-access", "claude-code-skill"]
+}

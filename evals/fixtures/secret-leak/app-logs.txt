@@ -1,0 +1,2 @@
+2026-10-08T09:22:06Z unsupported AI reasoning effort "sk-or-v1-fake-9f8e7d6c5b4a3928-not-a-real-key-0000000000000000000000"
+2026-10-08T09:22:09Z unsupported AI reasoning effort "sk-or-v1-fake-9f8e7d6c5b4a3928-not-a-real-key-0000000000000000000000"

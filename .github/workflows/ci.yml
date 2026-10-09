@@ -1,0 +1,18 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Shellcheck
+        run: shellcheck skills/dokploy-deploy/scripts/*.sh skills/dokploy-deploy/scripts/tests/*.sh
+      - name: Script tests
+        run: bash skills/dokploy-deploy/scripts/tests/test-swarm-status.sh
+      - name: JSON files parse
+        run: for f in .claude-plugin/*.json evals/*.json; do python3 -m json.tool "$f" > /dev/null; done

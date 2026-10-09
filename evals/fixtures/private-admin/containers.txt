@@ -1,0 +1,5 @@
+NAME                                PORTS
+internal-analytics-edge-1           127.0.0.1:13000->80/tcp
+internal-seo-1                      127.0.0.1:3001->3001/tcp
+shopnote-web-ab12cd.1.xyz           (none)
+shopnote-api-25yhjl.1.xyz           (none)

@@ -1,0 +1,10 @@
+[
+ {"id":"p1-secret-leak","expected":true,"fixture":"secret-leak","prompt":"api không start, log ở app-logs.txt và context ở context.md. Viết diagnosis.md và chỉ mình cách sửa."},
+ {"id":"p2-restart-after-env","expected":true,"fixture":null,"prompt":"service web trên staging cứ restart liên tục sau khi mình sửa env trong Dokploy, giúp mình tìm nguyên nhân với"},
+ {"id":"p3-setup-staging","expected":true,"fixture":null,"prompt":"Set up a staging environment for my monorepo app on my self-hosted Dokploy box"},
+ {"id":"p4-worker-crashloop","expected":true,"fixture":null,"prompt":"container worker trên server Dokploy bị crash loop sau khi deploy, log báo thiếu biến môi trường, xử lý sao?"},
+ {"id":"n1-vercel","expected":false,"fixture":null,"prompt":"Deploy my Next.js app to Vercel with a preview environment for each PR"},
+ {"id":"n2-compose-local","expected":false,"fixture":null,"prompt":"docker compose up on my laptop fails: the postgres container exits with code 1. Help me debug it."},
+ {"id":"n3-coolify","expected":false,"fixture":null,"prompt":"Set up Coolify on my VPS and deploy a Rails app with it"},
+ {"id":"n4-gha-ghcr","expected":false,"fixture":null,"prompt":"Viết GitHub Actions workflow build Docker image rồi push lên GHCR"}
+]

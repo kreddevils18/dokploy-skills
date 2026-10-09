@@ -1,0 +1,7 @@
+Saved staging environment block (values hidden, presence only):
+TIKTOK_CLIENT_KEY: SET
+TIKTOK_CLIENT_SECRET: SET
+TIKTOK_TOKEN_ENCRYPTION_KEY: SET
+TIKTOK_PUBLISH_MEDIA_BASE_URL: SET
+App env of api: TIKTOK_* = ${{environment.TIKTOK_*}} references.
+Swarm update config of api: {"Parallelism":1,"Order":"start-first","FailureAction":"rollback","Monitor":30000000000}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-dokploy-deploy",
+  "description": "A Claude Code skill for deploying and debugging multi-service apps on a self-hosted Dokploy server",
+  "owner": {
+    "name": "Kien Hoang Trung"
+  },
+  "plugins": [
+    {
+      "name": "dokploy-deploy",
+      "description": "Deploy, release and troubleshoot apps on self-hosted Dokploy through the Dokploy MCP: Applications, environment variables, domains, Tailscale, Cloudflare Access, ordered releases, Swarm rollback diagnosis, backups and data moves.",
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}

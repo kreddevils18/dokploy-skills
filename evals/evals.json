@@ -1,0 +1,76 @@
+{
+  "skill_name": "dokploy-deploy",
+  "evals": [
+    {
+      "id": "release-plan",
+      "split": "train",
+      "prompt": "Tôi cần deploy app shopnote lên môi trường staging trên Dokploy server của tôi. Các file trong thư mục này là README, env.example và output tôi lấy từ Dokploy MCP (inspect.json). Không chạy gì trên server. Hãy viết release-plan.md: cấu hình từng Application, template biến môi trường cho staging, thứ tự deploy và cách kiểm tra sau deploy.",
+      "expected_output": "A release plan with per-app Dokploy config, an environment-level env template with secret placeholders, ordered deploys with checks and health URLs.",
+      "files": ["README.md", "env.example", "inspect.json"],
+      "assertions": [
+        {"id": "plan-exists", "text": "release-plan.md exists.", "kind": "file-exists", "path": "release-plan.md"},
+        {"id": "env-level", "text": "Shared values are defined at the staging environment level and apps reference them as ${{environment.NAME}} (not project level, not duplicated literals per app)."},
+        {"id": "order", "text": "Deploy order runs migrate first and waits for it to finish successfully before api, then worker, then web, with a check after each step."},
+        {"id": "autodeploy-off", "text": "Autodeploy is turned off (or pushes are prevented from deploying all apps concurrently)."},
+        {"id": "no-secrets", "text": "Secret values are placeholders for the user to fill; the plan does not propose overwriting the redacted environment block through the API."},
+        {"id": "suffix", "text": "Internal URLs/DATABASE_URL use the Dokploy App Names actually assigned (noting the random suffix, e.g. shopnote-db-x1y2z3)."},
+        {"id": "health", "text": "Verification lists https://api.shop.example.dev/healthz and https://shop.example.dev/api/health and treats a 'done' deployment as insufficient without runtime checks."}
+      ]
+    },
+    {
+      "id": "env-missing",
+      "split": "train",
+      "prompt": "Deploy api trên Dokploy fail ngay với log trong deploy.log, context ở context.md. Viết diagnosis.md: nguyên nhân, trên server đã thay đổi gì chưa, và tôi cần làm gì.",
+      "expected_output": "The STORAGE_BUCKET name is missing from the staging environment block; nothing was built or changed; re-add it at environment level and redeploy.",
+      "files": ["deploy.log", "context.md"],
+      "assertions": [
+        {"id": "diag-exists", "text": "diagnosis.md exists.", "kind": "file-exists", "path": "diagnosis.md"},
+        {"id": "cause", "text": "Identifies that STORAGE_BUCKET is missing from the staging environment-level variables (likely removed while editing STORAGE_ENDPOINT), so the ${{environment.STORAGE_BUCKET}} reference cannot resolve."},
+        {"id": "nothing-built", "text": "States that the deploy failed at initialization so no image was built and the running service was not changed."},
+        {"id": "fix", "text": "Fix: add STORAGE_BUCKET back in the staging environment's variables (not project level), save, then redeploy."}
+      ]
+    },
+    {
+      "id": "rollback-trap",
+      "split": "train",
+      "prompt": "Tôi đã điền đủ key TikTok và deploy lại api 3 lần nhưng vẫn crash cùng một lỗi. Các file trong thư mục là log và trạng thái tôi lấy được. Viết diagnosis.md giải thích nguyên nhân và các bước xử lý.",
+      "expected_output": "Swarm rolled back to the original spec; the new spec fails for a different hidden reason; inspect UpdateStatus, temporarily use FailureAction pause to see the real error, fix, then restore rollback.",
+      "files": ["deployments.json", "app-logs.txt", "env-check.txt", "context.md"],
+      "assertions": [
+        {"id": "diag-exists", "text": "diagnosis.md exists.", "kind": "file-exists", "path": "diagnosis.md"},
+        {"id": "rollback", "text": "Explains that Swarm's FailureAction rollback restored the previous (original, broken) spec, so the logs come from the old env, and that 'done' does not prove the new task is healthy."},
+        {"id": "inspect", "text": "Proposes confirming with docker service inspect UpdateStatus (rollback_completed) and/or checking the service spec env, without printing secret values."},
+        {"id": "pause", "text": "Proposes temporarily switching the update FailureAction to pause (or an equivalent way to keep the new spec) to read the real startup error, and restoring rollback afterwards."},
+        {"id": "no-blind-redeploy", "text": "Does not simply recommend redeploying again or re-entering the same keys as the fix."}
+      ]
+    },
+    {
+      "id": "private-admin",
+      "split": "holdout",
+      "prompt": "Mình muốn app admin của shopnote chỉ mình mình truy cập được qua Tailscale ở địa chỉ trong context.md, web và api vẫn public. Viết admin-access.md gồm các bước setup và cách kiểm tra.",
+      "expected_output": "Publish a free host port, tailscale serve the service on the tagged server, approve the service, grant ACL access, set ADMIN_URL, verify host/tailnet/public refusal.",
+      "files": ["context.md", "containers.txt"],
+      "assertions": [
+        {"id": "doc-exists", "text": "admin-access.md exists.", "kind": "file-exists", "path": "admin-access.md"},
+        {"id": "port", "text": "Publishes the admin container port on a free host port, avoiding 3001 and 13000 which are already taken."},
+        {"id": "serve", "text": "Runs tailscale serve for a Tailscale Service (svc:...) on the server vps-1 (not the laptop), pointing at 127.0.0.1:<host port>."},
+        {"id": "approve-acl", "text": "Covers approving the service in the Tailscale admin console and granting the owner access to it in the tailnet policy."},
+        {"id": "origin", "text": "Sets ADMIN_URL to https://shopnote-admin.tail1234.ts.net and redeploys admin."},
+        {"id": "exposure", "text": "Warns that Swarm-published ports bind all interfaces and bypass UFW, and verifies the port is refused from the public IP (provider firewall), plus checks from the host and from the tailnet."}
+      ]
+    },
+    {
+      "id": "secret-leak",
+      "split": "holdout",
+      "prompt": "api không start, log ở app-logs.txt và context ở context.md. Viết diagnosis.md và chỉ mình cách sửa.",
+      "expected_output": "The provider key was pasted into AI_REASONING_EFFORT; fix the two variables; the key leaked into logs and must be rotated; the output never repeats the key.",
+      "files": ["app-logs.txt", "context.md"],
+      "assertions": [
+        {"id": "diag-exists", "text": "diagnosis.md exists.", "kind": "file-exists", "path": "diagnosis.md"},
+        {"id": "cause", "text": "Identifies that the OpenRouter API key was put into AI_REASONING_EFFORT (values swapped or misplaced) and gives the corrected assignment (key in OPENAI_API_KEY, reasoning effort empty or an accepted level)."},
+        {"id": "rotate", "text": "Says the key is now exposed in container/Dokploy logs and recommends rotating it."},
+        {"id": "no-echo", "text": "diagnosis.md and the final reply never reproduce the key (no 9f8e7d6c5b4a3928 substring)."}
+      ]
+    }
+  ]
+}

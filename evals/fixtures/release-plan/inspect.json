@@ -1,0 +1,6 @@
+{"project":{"name":"shopnote","projectId":"P1"},
+ "environments":[{"name":"production","environmentId":"E-prod","applications":[],"postgres":[]},
+  {"name":"staging","environmentId":"E-stg","env":"[REDACTED]","applications":[],
+   "postgres":[{"name":"db","appName":"shopnote-db-x1y2z3","databaseName":"shopnote","databaseUser":"postgres","databasePassword":"[REDACTED]","applicationStatus":"done","backups":[]}]}],
+ "githubProviders":[{"githubId":"GH1","owner":"acme","repository":"shopnote"}],
+ "note":"Dokploy MCP redacts every env value, even empty ones."}
