@@ -1,7 +1,8 @@
 # Dokploy MCP cookbook
 
-Tool names below drop the `mcp__dokploy-mcp__` prefix. The server exposes
-hundreds of deferred tools; load the ones you need in one ToolSearch call, for
+Tool names below drop the client's server prefix (for example
+`mcp__dokploy-mcp__` in Claude Code). The server exposes hundreds of tools; if
+your agent loads tool schemas on demand, load the ones you need in one batch, for
 example `select:project-all,environment-one,application-one,application-create,application-saveGithubProvider,application-saveBuildType,application-update,application-saveEnvironment,domain-create,port-create,application-deploy,deployment-all,deployment-readLogs,application-readLogs`.
 
 ## Behaviour to expect

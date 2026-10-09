@@ -6,8 +6,16 @@
     "name": "Kien Hoang Trung",
     "url": "https://github.com/kreddevils18"
   },
-  "homepage": "https://github.com/kreddevils18/claude-dokploy-deploy",
-  "repository": "https://github.com/kreddevils18/claude-dokploy-deploy",
+  "homepage": "https://github.com/kreddevils18/dokploy-skills",
+  "repository": "https://github.com/kreddevils18/dokploy-skills",
   "license": "MIT",
-  "keywords": ["dokploy", "deploy", "docker-swarm", "self-hosted", "tailscale", "cloudflare-access", "claude-code-skill"]
+  "keywords": [
+    "dokploy",
+    "deploy",
+    "docker-swarm",
+    "self-hosted",
+    "tailscale",
+    "cloudflare-access",
+    "agent-skills"
+  ]
 }

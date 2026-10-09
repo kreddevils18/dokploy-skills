@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "claude-dokploy-deploy",
-  "description": "A Claude Code skill for deploying and debugging multi-service apps on a self-hosted Dokploy server",
+  "name": "dokploy-skills",
+  "description": "Agent skills for deploying and debugging multi-service apps on a self-hosted Dokploy server",
   "owner": {
     "name": "Kien Hoang Trung"
   },

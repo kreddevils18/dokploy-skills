@@ -2,8 +2,8 @@
 
 Dokploy Applications are Docker Swarm services named by their suffixed App
 Name. When the MCP is not enough, inspect the service on the manager node over
-SSH (for example `tailscale ssh root@<host> '<command>'`). Ask first if the
-harness blocks it. `scripts/swarm-status.sh` bundles the read-only checks below.
+SSH (for example `tailscale ssh root@<host> '<command>'`). Ask first if your
+agent's permission rules block it. `scripts/swarm-status.sh` bundles the read-only checks below.
 
 ## Read the real state
 
